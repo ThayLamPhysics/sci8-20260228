@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ôn tập giữa HK2 - Thầy Lâm</title>
+    <!-- Tailwind CSS for styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- MathJax for formulas -->
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']]
+            },
+            chtml: {
+                scale: 1
+            }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap');
+
+        body {
+            font-family: 'Quicksand', sans-serif;
+            scroll-behavior: smooth;
+            background-color: #f8fafc; /* Màu nền trắng xám nhẹ */
+        }
+
+        /* Mediterranean Style Overrides */
+        .active-tab {
+            border-bottom: 4px solid #0284c7; /* Sky Blue */
+            color: #0284c7;
+            font-weight: 700;
+        }
+
+        .active-mobile-tab {
+            background-color: #f0f9ff; /* Blue 50 */
+            color: #0369a1; /* Blue 700 */
+            border-left: 4px solid #0369a1;
+        }
+
+        /* Pill button styling - Mediterranean Gradient */
+        .btn-pill {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.75rem 2rem;
+            border-radius: 9999px;
+            background: linear-gradient(to right, #0ea5e9, #0369a1);
+            color: white;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(14, 165, 233, 0.3);
+        }
+
+        .btn-pill:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 20px rgba(14, 165, 233, 0.4);
+        }
+
+        /* Secondary buttons - Terracotta Style */
+        .btn-secondary {
+            padding: 0.5rem 1.5rem;
+            border-radius: 0.5rem;
+            background-color: #f43f5e; /* Terracotta-ish Red/Pink */
+            color: white;
+            font-weight: 600;
+            transition: all 0.2s;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .btn-secondary:hover {
+            background-color: #e11d48;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.15);
+        }
+
+        /* Arched design elements */
+        .med-card {
+            background: white;
+            border-radius: 3rem 3rem 1rem 1rem; /* Arched Top */
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05);
+            border: 1px solid #e2e8f0;
+        }
+
+        /* Landing page transition */
+        #landing-page.fade-out {
+            opacity: 0;
+            transform: translateY(-100%);
+            transition: opacity 700ms ease, transform 700ms ease;
+            pointer-events: none;
+        }
+
+        .simulation-box {
+            background: #ffffff;
+            border: 2px solid #bae6fd;
+            border-radius: 1.5rem;
+            overflow: hidden;
+        }
+
+        #mobile-menu {
+            transition: transform 0.3s ease-in-out;
+        }
+
+        /* Texture overlay for Mediterranean feel */
+        .bg-pattern {
+            background-image: radial-gradient(#e2e8f0 0.5px, transparent 0.5px);
+            background-size: 20px 20px;
+        }
+    </style>
+</head>
+<body class="text-gray-800 bg-pattern">
+
+    <!-- LANDING PAGE (BÌA SÁCH) - PHONG CÁCH ĐỊA TRUNG HẢI -->
+    <div id="landing-page" class="fixed inset-0 z-50 flex flex-col items-center justify-center bg-gradient-to-br from-sky-400 via-white to-orange-100 p-6 text-center">
+        <div class="max-w-2xl bg-white/80 backdrop-blur-md p-12 rounded-[4rem] shadow-2xl border-4 border-white">
+            <div class="mb-6 flex justify-center">
+                <i data-lucide="sun" class="w-16 h-16 text-orange-400"></i>
+            </div>
+            <h1 class="text-4xl md:text-6xl font-bold text-sky-900 mb-4">ÔN TẬP GIỮA HỌC KỲ 2</h1>
+            <p class="text-2xl text-sky-700 font-medium mb-2">Môn: Khoa học tự nhiên 8</p>
+            <div class="w-24 h-1 bg-sky-500 mx-auto mb-8"></div>
+            <p class="text-lg text-gray-600 italic mb-10">"Hãy để kiến thức giống như những cánh buồm, lướt thật êm trên đại dương bao la của trí tuệ."</p>
+            <p class="text-xl font-bold text-orange-600 mb-8">— Thầy Lâm —</p>
+            
+            <button onclick="startApp()" class="btn-pill text-xl">
+                Bắt đầu hành trình <i data-lucide="compass" class="ml-2"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- MAIN APP STRUCTURE -->
+    <div id="app-content" class="min-h-screen flex flex-col pt-16">
+        
+        <!-- HEADER & NAV -->
+        <nav class="fixed top-0 left-0 right-0 bg-white/90 backdrop-blur-md shadow-sm z-40 border-b border-sky-100">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex justify-between items-center h-16">
+                    <!-- Logo -->
+                    <div class="flex items-center space-x-2">
+                        <i data-lucide="waves" class="text-sky-600"></i>
+                        <span class="text-xl font-bold text-sky-900">Lớp Thầy Lâm</span>
+                    </div>
+
+                    <!-- Hamburger Button -->
+                    <button id="hamburger-button" class="lg:hidden p-2 rounded-md text-sky-700 hover:bg-sky-50 focus:outline-none">
+                        <i data-lucide="menu"></i>
+                    </button>
+
+                    <!-- Desktop Tabs -->
+                    <div class="hidden lg:flex space-x-8">
+                        <button onclick="switchTab('intro')" data-tab="intro" class="tab-btn px-3 py-5 text-sm font-medium transition-colors hover:text-sky-600 active-tab">Giới thiệu</button>
+                        <button onclick="switchTab('electric')" data-tab="electric" class="tab-btn px-3 py-5 text-sm font-medium transition-colors hover:text-sky-600">Dòng điện</button>
+                        <button onclick="switchTab('chemistry')" data-tab="chemistry" class="tab-btn px-3 py-5 text-sm font-medium transition-colors hover:text-sky-600">Oxid - Acid - Base</button>
+                        <button onclick="switchTab('biology')" data-tab="biology" class="tab-btn px-3 py-5 text-sm font-medium transition-colors hover:text-sky-600">Hệ sinh dục</button>
+                        <button onclick="switchTab('test')" data-tab="test" class="tab-btn px-3 py-5 text-sm font-medium transition-colors hover:text-sky-600">Kiểm tra</button>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <!-- MOBILE SIDEBAR -->
+        <div id="mobile-menu-overlay" class="fixed inset-0 bg-sky-900/30 z-40 hidden"></div>
+        <div id="mobile-menu" class="fixed top-0 left-0 h-full w-64 bg-white z-50 shadow-2xl -translate-x-full lg:hidden">
+            <div class="p-6 flex justify-between items-center border-b border-sky-50">
+                <span class="font-bold text-sky-900 flex items-center"><i data-lucide="anchor" class="mr-2 w-5"></i> Menu</span>
+                <button id="close-menu-button" class="p-2 text-gray-500 hover:text-sky-600"><i data-lucide="x"></i></button>
+            </div>
+            <div class="flex flex-col mt-4">
+                <button onclick="switchTab('intro')" data-mobile-tab="intro" class="mobile-tab-btn p-4 text-left active-mobile-tab">Giới thiệu</button>
+                <button onclick="switchTab('electric')" data-mobile-tab="electric" class="mobile-tab-btn p-4 text-left">Dòng điện</button>
+                <button onclick="switchTab('chemistry')" data-mobile-tab="chemistry" class="mobile-tab-btn p-4 text-left">Oxid - Acid - Base</button>
+                <button onclick="switchTab('biology')" data-mobile-tab="biology" class="mobile-tab-btn p-4 text-left">Hệ sinh dục</button>
+                <button onclick="switchTab('test')" data-mobile-tab="test" class="mobile-tab-btn p-4 text-left font-bold text-orange-600">Kiểm tra</button>
+            </div>
+        </div>
+
+        <!-- MAIN CONTENT AREA -->
+        <main class="flex-grow max-w-5xl mx-auto w-full p-4 md:p-8 mt-4">
+            
+            <!-- Tab: Giới thiệu -->
+            <section id="content-intro" class="tab-content">
+                <div class="med-card p-8 md:p-12 border-t-[12px] border-sky-500">
+                    <h2 class="text-3xl font-bold text-sky-900 mb-6 flex items-center">
+                        <i data-lucide="sun" class="mr-3 text-orange-400"></i> Lời ngỏ từ Thầy Lâm
+                    </h2>
+                    <div class="prose prose-sky max-w-none text-lg leading-relaxed text-slate-600">
+                        <p>Chào các em học sinh thân yêu của thầy,</p>
+                        <p>Dưới cái nắng vàng rực rỡ và tiếng sóng vỗ rì rào, thầy muốn các em hãy tưởng tượng việc học tập cũng giống như một chuyến viễn du trên biển. Có lúc sóng yên biển lặng, cũng có lúc bão tố, nhưng quan trọng là chúng ta luôn giữ vững tay chèo.</p>
+                        <div class="bg-orange-50 p-6 rounded-2xl border-l-4 border-orange-400 my-8 italic shadow-sm">
+                            "Ngày xưa, có một ngư dân luôn mang theo một chiếc đèn dầu dù đi biển vào ban ngày. Mọi người cười ông, nhưng ông chỉ cười lại: 'Lửa điện trong đèn không chỉ để soi đường, nó nhắc tôi về sự hiện diện của năng lượng vô hình trong vũ trụ.' Kiến thức của các em cũng chính là ngọn lửa ấy."
+                        </div>
+                        <p>Hãy cùng thầy ôn lại những kiến thức trọng tâm của học kỳ này qua 3 chặng dừng chân thú vị phía trước nhé!</p>
+                        
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-10">
+                            <div class="p-4 bg-sky-50 rounded-2xl text-center border border-sky-100">
+                                <i data-lucide="zap" class="mx-auto mb-2 text-sky-500"></i>
+                                <span class="text-sm font-bold text-sky-800">Dòng Điện</span>
+                            </div>
+                            <div class="p-4 bg-orange-50 rounded-2xl text-center border border-orange-100">
+                                <i data-lucide="test-tube-2" class="mx-auto mb-2 text-orange-500"></i>
+                                <span class="text-sm font-bold text-orange-800">Hóa Học</span>
+                            </div>
+                            <div class="p-4 bg-rose-50 rounded-2xl text-center border border-rose-100">
+                                <i data-lucide="heart-pulse" class="mx-auto mb-2 text-rose-500"></i>
+                                <span class="text-sm font-bold text-rose-800">Sự Sống</span>
+                            </div>
+                            <div class="p-4 bg-blue-50 rounded-2xl text-center border border-blue-100">
+                                <i data-lucide="graduation-cap" class="mx-auto mb-2 text-blue-500"></i>
+                                <span class="text-sm font-bold text-blue-800">Kết Quả</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Tab: Dòng điện -->
+            <section id="content-electric" class="tab-content hidden">
+                <div class="med-card p-8 border-t-[12px] border-sky-400">
+                    <h2 class="text-2xl font-bold text-sky-900 mb-6">Chủ đề 1: Dòng điện & Nguồn điện</h2>
+                    
+                    <div class="grid md:grid-cols-2 gap-8 mb-8">
+                        <div>
+                            <h3 class="font-bold text-sky-600 mb-4 flex items-center"><i data-lucide="book" class="mr-2 w-5"></i> Lý thuyết trọng tâm</h3>
+                            <ul class="space-y-3 text-slate-600">
+                                <li class="flex items-start"><i data-lucide="check-circle" class="w-5 h-5 mr-2 text-sky-500 flex-shrink-0 mt-1"></i> <strong>Dòng điện:</strong> Các điện tích dịch chuyển có hướng.</li>
+                                <li class="flex items-start"><i data-lucide="check-circle" class="w-5 h-5 mr-2 text-sky-500 flex-shrink-0 mt-1"></i> <strong>Nguồn điện:</strong> Tạo ra và duy trì dòng điện.</li>
+                                <li class="flex items-start"><i data-lucide="check-circle" class="w-5 h-5 mr-2 text-sky-500 flex-shrink-0 mt-1"></i> <strong>Cường độ ($I$):</strong> Đo bằng Ampe kế (A).</li>
+                            </ul>
+                            <div class="bg-sky-50 p-4 rounded-xl mt-6 border border-sky-100 font-serif">
+                                Công thức mở rộng: $$I = \frac{U}{R}$$
+                                <p class="text-xs text-center text-sky-700 mt-2">Dòng điện tỉ lệ thuận với hiệu điện thế.</p>
+                            </div>
+                        </div>
+
+                        <div class="simulation-box flex flex-col shadow-inner">
+                            <div class="p-3 bg-sky-100 text-sky-800 text-xs font-bold text-center">Mô phỏng Electron trong dây dẫn</div>
+                            <div class="bg-slate-900 p-4 flex-grow flex items-center justify-center">
+                                <svg id="svg-electric" viewBox="0 0 400 100" class="w-full h-24">
+                                    <rect x="10" y="30" width="380" height="40" rx="20" fill="none" stroke="#0ea5e9" stroke-width="2" />
+                                    <!-- Particles created by JS -->
+                                </svg>
+                            </div>
+                            <div class="p-4 bg-white border-t border-sky-100 flex justify-center space-x-3">
+                                <button onclick="toggleElectric(true)" class="btn-pill px-4 py-2 text-sm">Đóng mạch</button>
+                                <button onclick="toggleElectric(false)" class="btn-secondary px-4 py-2 text-sm">Ngắt mạch</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Tab: Chemistry -->
+            <section id="content-chemistry" class="tab-content hidden">
+                <div class="med-card p-8 border-t-[12px] border-orange-400">
+                    <h2 class="text-2xl font-bold text-sky-900 mb-6">Chủ đề 2: Oxid, Acid và Base</h2>
+                    
+                    <div class="grid md:grid-cols-3 gap-4 mb-8">
+                        <div class="p-6 rounded-3xl bg-orange-50 border border-orange-100">
+                            <h4 class="font-bold text-orange-700 mb-2">Oxid</h4>
+                            <p class="text-sm text-slate-600">Hợp chất của 2 nguyên tố, trong đó có một nguyên tố là Oxygen ($O$). <br>VD: $CO_2, CaO$.</p>
+                        </div>
+                        <div class="p-6 rounded-3xl bg-rose-50 border border-rose-100">
+                            <h4 class="font-bold text-rose-700 mb-2">Acid</h4>
+                            <p class="text-sm text-slate-600">Phân tử có nguyên tử H và gốc acid. Làm quỳ tím hóa đỏ. <br>VD: $HCl$.</p>
+                        </div>
+                        <div class="p-6 rounded-3xl bg-sky-50 border border-sky-100">
+                            <h4 class="font-bold text-sky-700 mb-2">Base</h4>
+                            <p class="text-sm text-slate-600">Kim loại liên kết với nhóm $-OH$. Làm quỳ tím hóa xanh. <br>VD: $NaOH$.</p>
+                        </div>
+                    </div>
+
+                    <div class="simulation-box p-8 flex flex-col items-center bg-white shadow-lg">
+                        <h4 class="mb-6 font-bold text-slate-700">Thí nghiệm: Thử pH với giấy quỳ</h4>
+                        <div class="flex flex-col md:flex-row items-center space-y-8 md:space-y-0 md:space-x-20">
+                            <div class="relative">
+                                <div id="indicator-strip" class="w-12 h-32 bg-slate-100 border-4 border-white shadow-md rounded-lg transition-all duration-700"></div>
+                                <div class="absolute -bottom-6 left-0 w-full text-center text-[10px] font-bold text-slate-400 uppercase tracking-widest">Quỳ tím</div>
+                            </div>
+                            <div class="flex space-x-4">
+                                <button onclick="testpH('acid')" class="group flex flex-col items-center">
+                                    <div class="w-16 h-20 bg-rose-100 border-2 border-rose-200 rounded-b-2xl flex items-end overflow-hidden">
+                                        <div class="w-full h-1/2 bg-rose-400/40"></div>
+                                    </div>
+                                    <span class="mt-2 text-xs font-bold text-rose-600">Acid</span>
+                                </button>
+                                <button onclick="testpH('base')" class="group flex flex-col items-center">
+                                    <div class="w-16 h-20 bg-sky-100 border-2 border-sky-200 rounded-b-2xl flex items-end overflow-hidden">
+                                        <div class="w-full h-1/2 bg-sky-400/40"></div>
+                                    </div>
+                                    <span class="mt-2 text-xs font-bold text-sky-600">Base</span>
+                                </button>
+                                <button onclick="testpH('neutral')" class="btn-secondary h-10 mt-auto text-xs">Rửa giấy</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Tab: Biology -->
+            <section id="content-biology" class="tab-content hidden">
+                <div class="med-card p-8 border-t-[12px] border-rose-400">
+                    <h2 class="text-2xl font-bold text-sky-900 mb-6">Chủ đề 3: Hệ sinh dục & Sự thụ tinh</h2>
+                    
+                    <div class="bg-rose-50/50 p-6 rounded-3xl mb-8 border border-rose-100">
+                        <p class="text-rose-900 leading-relaxed italic">
+                            "Trong một hạt cát có cả thế giới, trong một tế bào có cả sự sống trường tồn. Các em hãy học về cơ thể mình với niềm tôn trọng và hiểu biết sâu sắc nhất."
+                        </p>
+                    </div>
+
+                    <div class="simulation-box p-8 bg-white">
+                        <h4 class="text-center mb-8 font-bold text-rose-700 uppercase tracking-wide">Mô phỏng sự thụ tinh</h4>
+                        <div class="relative w-full h-64 bg-slate-50 rounded-3xl overflow-hidden border border-rose-50 shadow-inner flex items-center justify-center">
+                            <svg id="svg-bio" viewBox="0 0 400 200" class="w-full h-full">
+                                <circle id="ovum" cx="320" cy="100" r="30" fill="#fecdd3" stroke="#fb7185" stroke-width="3" />
+                                <circle cx="320" cy="100" r="10" fill="#fff" opacity="0.4" />
+                            </svg>
+                            <div id="fertilization-msg" class="absolute inset-0 bg-rose-500/90 flex flex-col items-center justify-center text-white hidden">
+                                <i data-lucide="sparkles" class="w-12 h-12 mb-2"></i>
+                                <p class="text-2xl font-bold">Sự sống bắt đầu!</p>
+                                <button onclick="resetBio()" class="mt-4 px-6 py-2 bg-white text-rose-600 rounded-full font-bold text-sm">Xem lại</button>
+                            </div>
+                        </div>
+                        <div class="mt-8 text-center">
+                            <button onclick="startBio()" class="btn-pill">
+                                Khởi hành <i data-lucide="play" class="ml-2 w-4"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Tab: Test -->
+            <section id="content-test" class="tab-content hidden h-[80vh]">
+                <div class="med-card w-full h-full overflow-hidden flex flex-col border-t-[12px] border-orange-500">
+                    <div class="p-4 bg-orange-400 flex justify-between items-center text-white">
+                        <span class="font-bold flex items-center"><i data-lucide="clipboard-check" class="mr-2"></i> KIỂM TRA TỔNG HỢP</span>
+                    </div>
+                    <iframe src="test.html" class="w-full flex-grow border-none" title="Online Test">
+                        Trình duyệt không hỗ trợ iframe.
+                    </iframe>
+                </div>
+            </section>
+
+        </main>
+
+        <!-- NO FOOTER ACCORDING TO REQUEST -->
+    </div>
+
+    <script>
+        // --- 1. APP LOGIC & NAVIGATION ---
+        function startApp() {
+            const landing = document.getElementById('landing-page');
+            landing.classList.add('fade-out');
+            setTimeout(() => {
+                landing.style.display = 'none';
+                lucide.createIcons();
+                initSimulations();
+            }, 700);
+        }
+
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(section => section.classList.add('hidden'));
+            document.getElementById(`content-${tabId}`).classList.remove('hidden');
+
+            // Desktop Tab Update
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.toggle('active-tab', btn.getAttribute('data-tab') === tabId);
+            });
+
+            // Mobile Tab Update
+            document.querySelectorAll('.mobile-tab-btn').forEach(btn => {
+                btn.classList.toggle('active-mobile-tab', btn.getAttribute('data-mobile-tab') === tabId);
+            });
+
+            closeMobileMenu();
+            if (window.MathJax) MathJax.typeset();
+        }
+
+        // --- 2. MOBILE MENU LOGIC ---
+        const hamburgerBtn = document.getElementById('hamburger-button');
+        const closeMenuBtn = document.getElementById('close-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const mobileOverlay = document.getElementById('mobile-menu-overlay');
+
+        function openMobileMenu() {
+            mobileMenu.classList.remove('-translate-x-full');
+            mobileOverlay.classList.remove('hidden');
+        }
+
+        function closeMobileMenu() {
+            mobileMenu.classList.add('-translate-x-full');
+            mobileOverlay.classList.add('hidden');
+        }
+
+        hamburgerBtn.addEventListener('click', openMobileMenu);
+        closeMenuBtn.addEventListener('click', closeMobileMenu);
+        mobileOverlay.addEventListener('click', closeMobileMenu);
+
+        // --- 3. SIMULATIONS ---
+
+        // (A) ELECTRIC
+        let electricInterval = null;
+        const svgElectric = document.getElementById('svg-electric');
+        
+        function initSimulations() {
+            for(let i=0; i<15; i++) {
+                let c = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+                c.setAttribute("cx", 20 + Math.random() * 360);
+                c.setAttribute("cy", 40 + Math.random() * 20);
+                c.setAttribute("r", 4);
+                c.setAttribute("fill", "#fbbf24");
+                c.classList.add("electron");
+                svgElectric.appendChild(c);
+            }
+        }
+
+        function toggleElectric(on) {
+            if(on) {
+                if(electricInterval) return;
+                electricInterval = setInterval(() => {
+                    document.querySelectorAll('.electron').forEach(el => {
+                        let cx = parseFloat(el.getAttribute('cx'));
+                        cx += 2.5;
+                        if(cx > 380) cx = 20;
+                        el.setAttribute('cx', cx);
+                    });
+                }, 30);
+            } else {
+                clearInterval(electricInterval);
+                electricInterval = null;
+            }
+        }
+
+        // (B) CHEMISTRY
+        function testpH(type) {
+            const strip = document.getElementById('indicator-strip');
+            if (type === 'acid') strip.style.backgroundColor = '#fb7185'; // Red-pink
+            else if (type === 'base') strip.style.backgroundColor = '#38bdf8'; // Sky-blue
+            else strip.style.backgroundColor = '#f1f5f9'; // Neutral
+        }
+
+        // (C) BIOLOGY
+        let bioAnimating = false;
+        function startBio() {
+            if (bioAnimating) return;
+            bioAnimating = true;
+            const svg = document.getElementById('svg-bio');
+            
+            const sperm = document.createElementNS("http://www.w3.org/2000/svg", "path");
+            sperm.setAttribute("fill", "white");
+            svg.appendChild(sperm);
+
+            let x = 0;
+            const anim = setInterval(() => {
+                x += 4;
+                // Move and wiggle
+                const yOffset = Math.sin(x / 10) * 5;
+                sperm.setAttribute("d", `M${x} ${100+yOffset} Q ${x-10} ${90+yOffset}, ${x-20} ${100+yOffset} T ${x-40} ${100+yOffset}`);
+                
+                if (x >= 290) {
+                    clearInterval(anim);
+                    document.getElementById('ovum').setAttribute('fill', '#f43f5e');
+                    document.getElementById('fertilization-msg').classList.remove('hidden');
+                    sperm.remove();
+                    bioAnimating = false;
+                }
+            }, 20);
+        }
+
+        function resetBio() {
+            document.getElementById('ovum').setAttribute('fill', '#fecdd3');
+            document.getElementById('fertilization-msg').classList.add('hidden');
+        }
+
+        window.onload = () => lucide.createIcons();
+    </script>
+</body>
+</html>
